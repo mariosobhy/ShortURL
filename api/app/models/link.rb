@@ -33,7 +33,7 @@ class Link < ApplicationRecord
     return link if link
 
     # create a new
-    link = Link.new(url: urlass)
+    link = Link.new(url: url)
     return link
   end
 end
