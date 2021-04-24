@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CreateShortUrl } from "../service/CreateShortUrl";
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
-import validator from 'validator';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { validateUrl } from '../lib/ValidateUrl';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     margin: 50,
     direction: "row",
@@ -16,36 +16,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchBar() {
-  const [url, setUrl] = useState("");
-  const [slug, setSlug] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+  const [url, setUrl] = useState('');
+  const [shortUrl, setShortUrl] = useState('');
   const classes = useStyles();
 
   const submit = async (e) => {
     e.preventDefault();
-    let params = { url: url, slug: slug };
-    if(validate(url)){
+    let params = { url: url };
+    if(validateUrl(url)){
       let response = await CreateShortUrl(params);
       if (response.data) {
-        setShortUrl(response.data.data.shorten_url);
+        setShortUrl(response.data.shorten_url);
       }
+    } else {
+      NotificationManager.error("Error", "Not Valid URL", 3000);
     }
   };
   const handleUrlChange = async (e) => {
     setUrl(e.target.value);
   };
-
-  const handleSlugChange = async (e) => {
-    setSlug(e.target.value);
-  };
-
-  const validate = (value) => {
-    if (!validator.isURL(value)) {
-      NotificationManager.error("Error", 'Not Valid URL', 3000);
-      return false;
-    }
-    return true;
-  }
 
   return (
     <>
@@ -68,15 +57,6 @@ export default function SearchBar() {
               />
             </Grid>
             <Grid>
-            <TextField
-                value={slug}
-                onChange={handleSlugChange}
-                label="Type slug here"
-                margin="normal"
-                variant="outlined"
-              />
-            </Grid>
-            <Grid>
               <Button variant="contained" color="primary" type="submit">
                 Short it
               </Button>
@@ -84,7 +64,7 @@ export default function SearchBar() {
           </form><br />
           <Grid>
             <p>Short URL: </p>
-            <a href={url} target="_blank">
+            <a href={url} target="_blank" rel="noopener noreferrer">
               {shortUrl}
             </a>
           </Grid>

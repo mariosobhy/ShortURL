@@ -8,8 +8,7 @@ class LinksController < ApplicationController
 
   def create
     @url = params[:url]
-    @slug = params[:slug]
-    @link = Link.shorten(@url, @slug)
+    @link = Link.shorten(@url)
     if @link.save
       render json: { shorten_url: @link.short, original_url: @link.url }, status: :created
     else

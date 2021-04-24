@@ -27,15 +27,13 @@ class Link < ApplicationRecord
     true
   end
 
-  def self.shorten(url, slug = '')
-    # return short when URL with that slug was created before
-    link = Link.where(url: url, slug: slug).first
+  def self.shorten(url)
     # return short when URL was created before
     link = Link.where(url: url).first if !link
     return link if link
 
     # create a new
-    link = Link.new(url: url, slug: slug)
+    link = Link.new(url: urlass)
     return link
   end
 end

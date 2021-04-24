@@ -3,15 +3,13 @@ RSpec.describe "/links", type: :request do
   let(:links_url) { '/links' }
   let(:valid_attributes) do
     {
-      url: Faker::Internet.url,
-      slug: Faker::Internet.slug
+      url: Faker::Internet.url
     }
   end
 
   let(:invalid_attributes) do
     {
-      url: 'test',
-      slug: ''
+      url: 'test'
     }
   end
   let(:valid_headers) {
