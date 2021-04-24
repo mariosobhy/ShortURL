@@ -1,0 +1,38 @@
+version: "2"
+services:
+  db:
+    image: postgres:12.1
+    volumes:
+      # We'll mount the 'postgres-data' volume into the location Postgres stores it's data:
+      - postgres-data:/var/lib/postgresql/data
+  api:
+    build: ./api
+    command: bundle exec rails s -p 80 -b '0.0.0.0' --log-to-stdout
+    volumes:
+      - ./api:/api
+      - /api/tmp
+      - /api/log
+    ports:
+      - "80:80"
+    links:
+      - db
+  frontend:
+    build: ./frontend
+    command: npm start
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/.next
+      - /frontend/temp
+      - /frontend/dist
+      - /frontend/node_modules
+    ports:
+      - '3000:3000'
+    links:
+      - api
+    stdin_open: true
+
+
+volumes:
+  postgres-data:
+  data01:
+    driver: local
