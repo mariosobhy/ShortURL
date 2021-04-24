@@ -5,5 +5,5 @@ RSpec.describe Link, type: :model do
   # ensure columns url present before saving
   it { should validate_presence_of(:url) }
   # ensure columns slug uniqueness before saving
-  it { should validate_uniqueness_of(:slug) }
+  it { should validate_uniqueness_of(:slug).case_insensitive }
 end

@@ -29,7 +29,7 @@ class Link < ApplicationRecord
 
   def self.shorten(url)
     # return short when URL was created before
-    link = Link.where(url: url).first if !link
+    link = Link.find_by_url(url)
     return link if link
 
     # create a new
