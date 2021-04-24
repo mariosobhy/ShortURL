@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CreateShortUrl } from "../service/CreateShortUrl";
-import { Button, Grid, TextField } from "@material-ui/core";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import validator from 'validator';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,12 +24,11 @@ export default function SearchBar() {
   const submit = async (e) => {
     e.preventDefault();
     let params = { url: url, slug: slug };
-    console.log(params);
-    let response = await CreateShortUrl(params);
-    console.log(params);
-    console.log(response.data.data);
-    if (response.data) {
-      setShortUrl(response.data.data.shorten_url);
+    if(validate(url)){
+      let response = await CreateShortUrl(params);
+      if (response.data) {
+        setShortUrl(response.data.data.shorten_url);
+      }
     }
   };
   const handleUrlChange = async (e) => {
@@ -37,10 +39,22 @@ export default function SearchBar() {
     setSlug(e.target.value);
   };
 
+  const validate = (value) => {
+    if (!validator.isURL(value)) {
+      NotificationManager.error("Error", 'Not Valid URL', 3000);
+      return false;
+    }
+    return true;
+  }
+
   return (
     <>
       <div className={classes.root}>
+        <NotificationContainer/>
         <Grid>
+          <Typography variant="h4" align="center" component="h1" gutterBottom>
+            Short URL
+          </Typography>
           <form onSubmit={submit}>
             <Grid>
               <TextField
@@ -64,7 +78,7 @@ export default function SearchBar() {
             </Grid>
             <Grid>
               <Button variant="contained" color="primary" type="submit">
-                Create
+                Short it
               </Button>
             </Grid>
           </form><br />
