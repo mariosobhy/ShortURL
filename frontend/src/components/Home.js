@@ -1,10 +1,10 @@
-import React from 'react';
-import SearchBar from './CreateShortLinkBar';
+import React from "react";
+import CreateShortLinkBar from "./CreateShortLinkBar";
 
 export default function Home() {
-    return (
-        <>
-            <SearchBar />
-        </>
-    )
+  return (
+    <>
+      <CreateShortLinkBar />
+    </>
+  );
 }
