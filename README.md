@@ -10,6 +10,7 @@ is a URL shortening web service, which provides short aliases for redirection of
 * `docker-compose build`
 * `docker-compose run api rails db:create`
 * `docker-compose run api rails db:migrate`
+* `docker-compose run api rspec`
 * `docker-compose up`
 
 ## Running
