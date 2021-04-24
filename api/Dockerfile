@@ -17,7 +17,6 @@ WORKDIR /api
 ADD Gemfile /api/Gemfile
 ADD Gemfile.lock /api/Gemfile.lock
 RUN bundle install
-RUN rails db:create
 COPY . /api
 
 EXPOSE 3000
