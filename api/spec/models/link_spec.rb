@@ -4,6 +4,7 @@ RSpec.describe Link, type: :model do
   # Validation tests
   # ensure columns url present before saving
   it { should validate_presence_of(:url) }
-  # ensure columns slug uniqueness before saving
-  it { should validate_uniqueness_of(:slug).case_insensitive }
+  # ensure callbacks are called
+  it { is_expected.to callback(:validate_url).before(:save) }
+  it { is_expected.to callback(:generate_slug).before(:validation) }
 end

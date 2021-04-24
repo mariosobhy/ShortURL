@@ -16,16 +16,6 @@ RSpec.describe "/links", type: :request do
     {"CONTENT_TYPE" => "application/json"}
   }
 
-  # describe "GET /s/:slug" do
-  #   it "renders a successful response" do
-  #     get "s/test",
-  #     params: valid_attributes, headers: valid_headers, as: :json
-  #     link = Link.create! valid_attributes
-  #     get link_url(link), as: :json
-  #     expect(response).to be_successful
-  #   end
-  # end
-
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a short Link" do
