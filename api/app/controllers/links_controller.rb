@@ -10,6 +10,10 @@ class LinksController < ApplicationController
     @url = params[:url]
     @slug = params[:slug]
     @link = Link.shorten(@url, @slug)
-    render json: { data: @link }
+    if @link.save
+      render json: { shorten_url: @link.short, original_url: @link.url }, status: :created
+    else
+      render json: @link.errors, status: :unprocessable_entity
+    end
   end
 end

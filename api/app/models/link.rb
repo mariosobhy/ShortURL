@@ -1,16 +1,25 @@
 class Link < ApplicationRecord
   ## Validations
   validates_presence_of :url
-  validates :url, format: URI::regexp(%w[http https])
   validates_uniqueness_of :slug
-  validates_length_of :url, within: 3..255, on: :create, message: "too long"
-  validates_length_of :slug, within: 3..255, on: :create, message: "too long"
+  validates_length_of :url, within: 3..255, on: :create, message: "too long or too short"
+  validates_length_of :slug, within: 3..255, on: :create, message: "too long or too short"
 
   ## Callbacks
   before_validation :generate_slug
+  before_save :validate_url
 
   def short
     Rails.application.routes.url_helpers.short_url(slug: self.slug)
+  end
+
+  def validate_url
+    data_matched = URI.regexp.match self.url
+    unless data_matched.present?
+      errors.add(:url, "Is not valid.")
+      raise ActiveRecord::RecordInvalid.new(self)
+    end
+    true
   end
 
   def generate_slug
@@ -23,13 +32,10 @@ class Link < ApplicationRecord
     link = Link.where(url: url, slug: slug).first
     # return short when URL was created before
     link = Link.where(url: url).first if !link
-    return { shorten_url: link.short, original_url: link.url } if link
+    return link if link
 
     # create a new
     link = Link.new(url: url, slug: slug)
-    return { shorten_url: link.short, original_url: link.url } if link.save
-
-    # if slug is taken, try to add random characters
-    Link.shorten(url, slug + SecureRandom.uuid[0..2])
+    return link
   end
 end
