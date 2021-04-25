@@ -17,3 +17,7 @@ is a URL shortening web service, which provides short aliases for redirection of
 * `docker-compose up`
 * Visit your frontend app at [http://localhost:3000](http://localhost:3000).
 
+## Time Spent
+* I spend 2 hours on creating the backend
+* Also I spend 3 hours on creating the frontend side since I'm still getting familiar with react 
+* So total hours = 5 hours
