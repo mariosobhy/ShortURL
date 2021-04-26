@@ -4,7 +4,6 @@ is a URL shortening web service, which provides short aliases for redirection of
 
 ## Prerequisites
 * Install docker [get docker](https://docs.docker.com/engine/getstarted/step_one/#step-1-get-docker)
-* Before you go with the next steps here are some costom aliases you should add to your command line or use the original commands:
 
 ## Installation
 * `docker-compose build`
